@@ -17,7 +17,7 @@ live demo [Website](https://blog-app-64zh.onrender.com), [Video](https://www.you
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/ashishsen003/blog-app.git`
+1. Clone the repository: `git clone https://github.com/SirraShravan/blog-app.git`
 ### Frontend Setup
 2. Navigate to the frontend folder `cd frontend`
 3. Install dependencies `npm install or yarn install`

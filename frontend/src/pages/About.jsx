@@ -6,14 +6,14 @@ const About = () => {
       <div className="max-w-2xl mx-auto p-3 text-center">
         <div className="flex flex-col"> 
           <h1 className="text-4xl font font-semibold text-center my-7">
-            About Ashish's Blog
+            About Shravan's Blog
           </h1>
           <div className="text-xl text-gray-500 flex flex-col gap-6">
             <p>
-              Welcome to Ashish's Blog! This blog was created by Ashish Kumar
+              Welcome to Shravan's Blog! This blog was created by Sirra Shravan
               as a personal project to Showcase his skills in full stack web 
               development by using javascript, react, nodeJs, expressJs, mongoDB as a database. 
-              Ashish is a passionate developer who loves coding.
+              Shravan is a passionate developer who loves coding.
             </p>
 
             <p>This is a blog application with admin dashboard Where Only admin can create a blog and user can read it. 
@@ -25,7 +25,7 @@ const About = () => {
               other readers. We believe that a community of learners can help
               each other grow and improve.
             </p>
-            <p>Made by Ashish with ♥️</p>
+            <p>Made by Shravan with ♥️</p>
           </div>
         </div>
       </div>
