@@ -112,16 +112,15 @@ const Header = () => {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as={"div"}>
-          <Link to="/">Home</Link>
+        <Navbar.Link active={path === "/"} as={Link} to="/">
+          Home
         </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={"div"}>
-          <Link to="/dashboard?tab=profile">Profile</Link>
+        <Navbar.Link active={path === "/about"} as={Link} to="/about">
+          About
         </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={"div"}>
-          <Link to="/about">About</Link>
+        <Navbar.Link active={path === "/projects"} as={Link} to="/projects">
+          Projects
         </Navbar.Link>
-        {/* dashboard?tab=profile */}
       </Navbar.Collapse>
     </Navbar>
   );

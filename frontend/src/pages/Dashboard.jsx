@@ -16,6 +16,8 @@ const Dashboard = () => {
     const tabFromUrl = urlParams.get("tab");
     if (tabFromUrl) {
       setTab(tabFromUrl);
+    } else {
+      setTab("profile");
     }
   }, [location.search]);
   
