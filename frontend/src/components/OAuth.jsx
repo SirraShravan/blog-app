@@ -32,6 +32,7 @@ const OAuth = () => {
         }
     } catch (error) {
       console.log(error);
+      alert('Google Sign-in is not configured on this local instance. Please use email/password sign in.');
     }
   };
 
