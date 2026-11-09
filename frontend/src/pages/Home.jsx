@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "flowbite-react";
 import PostCard from '../components/PostCard'
 
 const Home = () => {
@@ -24,7 +25,16 @@ const Home = () => {
           Here you will find a variety of articles and tutorials and topics such
           as History, Automobile and Science etc.
         </p>
-      <Link to={'/search'} className="text-xs sm:text-sm text-teal-500 font-bold hover:underline">View all posts</Link>
+        <div className="flex gap-4 items-center">
+          <Link to={'/create-post'}>
+            <Button gradientDuoTone="purpleToPink" className="font-semibold shadow-md">
+              ✍️ Write an Article
+            </Button>
+          </Link>
+          <Link to={'/search'} className="text-sm text-teal-500 font-bold hover:underline">
+            View all posts →
+          </Link>
+        </div>
       </div>
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7">
 

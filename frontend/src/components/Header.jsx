@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { HiPencilAlt, HiDocumentText } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../Redux/theme/themeSlice";
 import { signoutSuccess } from "../Redux/user/userSlice";
@@ -79,6 +80,18 @@ const Header = () => {
         <Button className="w-12 h-10 sm:inline" color="gray" pill onClick={()=>dispatch(toggleTheme())}>
           {theme === 'light' ? <FaMoon/> : <FaSun />}
         </Button>
+        {currentUser && (
+          <Link to="/create-post">
+            <Button
+              gradientDuoTone="purpleToPink"
+              size="sm"
+              className="flex items-center gap-1 font-semibold shadow-sm hover:shadow"
+            >
+              <HiPencilAlt className="w-4 h-4 mr-1" />
+              <span>Write</span>
+            </Button>
+          </Link>
+        )}
         {currentUser ? (
           <Dropdown 
             arrowIcon={false}
@@ -93,10 +106,16 @@ const Header = () => {
             }
           >
             <Dropdown.Header>
-              <span className="block text-sm">{currentUser.username}</span>
-              <span className="block text-sm font-medium truncate">{currentUser.email}</span>
+              <span className="block text-sm font-semibold">{currentUser.username}</span>
+              <span className="block text-sm font-medium truncate text-gray-500">{currentUser.email}</span>
             </Dropdown.Header>
-            <Link  to={'/dashboard?tab=profile'}>
+            <Link to={'/create-post'}>
+              <Dropdown.Item icon={HiPencilAlt}>Write Article</Dropdown.Item>
+            </Link>
+            <Link to={'/dashboard?tab=posts'}>
+              <Dropdown.Item icon={HiDocumentText}>My Articles</Dropdown.Item>
+            </Link>
+            <Link to={'/dashboard?tab=profile'}>
               <Dropdown.Item>Profile</Dropdown.Item>
               <Dropdown.Divider />
             </Link>

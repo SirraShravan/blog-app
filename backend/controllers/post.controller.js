@@ -2,24 +2,34 @@ import Post from "../models/post.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const create = async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return next(errorHandler(403, "You are not allowed to create a post"));
+  if (!req.user) {
+    return next(errorHandler(401, "You must be logged in to create a post"));
   }
   if (!req.body.title || !req.body.content) {
     return next(errorHandler(400, "Please provide all required fields"));
   }
-  const slug = req.body.title
+  const baseSlug = req.body.title
+    .trim()
     .split(" ")
     .join("-")
     .toLowerCase()
     .replace(/[^a-zA-Z0-9-]/g, "-");
 
-  const newPost = new Post({
-    ...req.body,
-    slug,
-    userId: req.user.id,
-  });
+  let slug = baseSlug;
   try {
+    const existingPost = await Post.findOne({ slug });
+    if (existingPost) {
+      slug = `${baseSlug}-${Math.random().toString(36).substring(2, 7)}`;
+    }
+
+    const defaultImage = "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80";
+
+    const newPost = new Post({
+      ...req.body,
+      image: req.body.image && req.body.image.trim() !== "" ? req.body.image : defaultImage,
+      slug,
+      userId: req.user.id,
+    });
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
   } catch (error) {
@@ -70,7 +80,7 @@ export const getposts = async (req, res, next) => {
 };
 
 export const deletepost = async (req, res, next) => {
-  if(!req.user.isAdmin || req.user.id != req.params.userId){
+  if (!req.user.isAdmin && req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to delete this post'))
   }
   try {
@@ -83,7 +93,7 @@ export const deletepost = async (req, res, next) => {
 
 
 export const updatepost = async(req, res, next)=>{
-  if(!req.user.isAdmin || req.user.id != req.params.userId){
+  if (!req.user.isAdmin && req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to update this post'))
   }
   try {

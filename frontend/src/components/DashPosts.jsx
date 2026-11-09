@@ -28,7 +28,7 @@ const DashPosts = () => {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
+    if (currentUser) {
       fetchPosts();
     }
   }, [currentUser._id]);
@@ -70,7 +70,7 @@ const DashPosts = () => {
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      {currentUser && userPosts.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
@@ -123,7 +123,12 @@ const DashPosts = () => {
           )}
         </>
       ) : (
-        <p>You have no posts yet</p>
+        <div className="flex flex-col items-center justify-center p-8 text-center bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+          <p className="text-gray-500 dark:text-gray-400 mb-4 text-lg">You have not published any articles yet.</p>
+          <Link to="/create-post">
+            <Button gradientDuoTone="purpleToPink">Write Your First Article</Button>
+          </Link>
+        </div>
       )}
       <Modal
         show={showModal}

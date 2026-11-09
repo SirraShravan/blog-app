@@ -54,29 +54,48 @@ export default function UpdatePost() {
         return;
       }
       setImageUploadError(null);
-      const storage = getStorage(app);
-      const fileName = new Date().getTime() + '-' + file.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageUploadProgress(progress.toFixed(0));
-        },
-        (error) => {
-          setImageUploadError('Image upload failed');
-          setImageUploadProgress(null);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+
+      if (import.meta.env.VITE_FIREBASE_API_KEY) {
+        const storage = getStorage(app);
+        const fileName = new Date().getTime() + '-' + file.name;
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setImageUploadProgress(progress.toFixed(0));
+          },
+          (error) => {
+            setImageUploadError('Image upload failed');
+            setImageUploadProgress(null);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              setImageUploadProgress(null);
+              setImageUploadError(null);
+              setFormData((prevFormData) => ({ ...prevFormData, image: downloadURL }));
+            });
+          }
+        );
+      } else {
+        setImageUploadProgress(50);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageUploadProgress(100);
+          setTimeout(() => {
             setImageUploadProgress(null);
             setImageUploadError(null);
-            setFormData((prevFormData) => ({ ...prevFormData, image: downloadURL }));
-          });
-        }
-      );
+            setFormData((prev) => ({ ...prev, image: reader.result }));
+          }, 300);
+        };
+        reader.onerror = () => {
+          setImageUploadProgress(null);
+          setImageUploadError('Failed to read image file');
+        };
+        reader.readAsDataURL(file);
+      }
     } catch (error) {
       setImageUploadError('Image upload failed');
       setImageUploadProgress(null);
